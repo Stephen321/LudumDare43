@@ -194,10 +194,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: CanSpawn
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1446366209008956, guid: 41685833e497cb74f83b2cdb89a72d65, type: 2}
       propertyPath: m_Name
       value: RightIceStart
@@ -381,7 +377,7 @@ Transform:
   m_GameObject: {fileID: 1032606420}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1000}
-  m_LocalScale: {x: 4, y: 3.1, z: 1}
+  m_LocalScale: {x: 4, y: 3.15, z: 1}
   m_Children: []
   m_Father: {fileID: 519420032}
   m_RootOrder: 0
@@ -595,10 +591,9 @@ GameObject:
   - component: {fileID: 2050504295}
   - component: {fileID: 2050504294}
   - component: {fileID: 2050504293}
-  - component: {fileID: 2050504292}
   - component: {fileID: 2050504296}
-  - component: {fileID: 2050504297}
   - component: {fileID: 2050504298}
+  - component: {fileID: 2050504292}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -606,8 +601,8 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!61 &2050504292
-BoxCollider2D:
+--- !u!58 &2050504292
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -618,19 +613,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.6666667, y: 1.25}
-    newSize: {x: 0.6666667, y: 1.25}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: -0.02, y: -0.2}
   serializedVersion: 2
-  m_Size: {x: 0.5513648, y: 1.2125244}
-  m_EdgeRadius: 0
+  m_Radius: 0.38
 --- !u!114 &2050504293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -646,6 +631,8 @@ MonoBehaviour:
   force: 700
   fallGravityMultiplier: 1.75
   jumpGravityMultiplier: 1.25
+  Coolness_For_Double_Jump: 2
+  Time_Before_Double_Jump: 0.1
 --- !u!212 &2050504294
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -699,7 +686,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2050504291}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: -1}
+  m_LocalPosition: {x: -4, y: 2, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -725,17 +712,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &2050504297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2050504291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ce9dcef69dcee64ea71890ad2816450, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &2050504298
 Animator:
   serializedVersion: 3

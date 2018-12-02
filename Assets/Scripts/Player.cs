@@ -6,8 +6,10 @@ public class Player : MonoBehaviour {
 
     public Config config;
     public float force = 10;
-    public float fallGravityMultiplier = 1.5f;
-    public float jumpGravityMultiplier = 0.5f;
+    public float fallGravityMultiplier;
+    public float jumpGravityMultiplier;
+    public int Coolness_For_Double_Jump;
+    public int Coolness { get; set; }
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -18,13 +20,24 @@ public class Player : MonoBehaviour {
 
     private int jump_hash = Animator.StringToHash("Jump");
     private int grounded_hash = Animator.StringToHash("Grounded");
+    public float Time_Before_Double_Jump;
+    private float jumping_time;
+    private bool already_double_jumped;
+    private Vector3 collider_offset;
 
+    private bool start_jump;
     // Use this for initialization
     void Start ()
     {
+        Coolness = 0;
+        already_double_jumped = false;
+        jumping_time = .0f;
+        start_jump = false;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        distToGround = GetComponent<BoxCollider2D>().bounds.extents.y;
+        CircleCollider2D circle_collider = GetComponent<CircleCollider2D>();
+        distToGround = circle_collider.bounds.extents.y;
+        collider_offset = circle_collider.offset;
     }
 	
 	// Update is called once per frame
@@ -36,17 +49,27 @@ public class Player : MonoBehaviour {
 
         //transform.position = new Vector3(transform.position.x, 3, transform.position.z);
 
-        jump = Input.GetKeyDown(KeyCode.Space);
+        jump = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetMouseButtonDown(0);
         grounded = IsGrounded();
+        if (jump && grounded)
+        {
+            start_jump = true; //if there was a point where this was true then start the jump
+        }
+
+        if (grounded)
+        {
+            already_double_jumped = false;
+        }
     }
 
     void FixedUpdate()
     {
         anim.SetBool(grounded_hash, rb.velocity.y < 0.1f);
-        if (grounded && jump)
+        if (start_jump)
         {
-            anim.SetTrigger(jump_hash);
+            start_jump = false;
             rb.AddForce(Vector2.up * force);
+            jumping_time = .0f;
         }
 
         if (rb.velocity.y < 0f) //fall faster
@@ -57,11 +80,29 @@ public class Player : MonoBehaviour {
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * jumpGravityMultiplier * Time.deltaTime;
         }
+
+        //double jumping
+        if (Coolness > Coolness_For_Double_Jump && !grounded && !already_double_jumped)
+        {
+            jumping_time += Time.deltaTime;
+            if (jumping_time > Time_Before_Double_Jump)
+            {
+                if (jump)
+                {
+                    Vector2 new_vel = rb.velocity;
+                    new_vel.y = .0f;
+                    rb.velocity = new_vel;
+                    anim.SetTrigger(jump_hash);
+                    rb.AddForce(Vector2.up * force * 0.7f);
+                    already_double_jumped = true;
+                }
+            }
+        }
     }
 
     bool IsGrounded()
     {
-        return Physics2D.Raycast(transform.position, Vector3.down, distToGround + 0.1f, LayerMask.GetMask("Collidable"));
+        return Physics2D.Raycast(transform.position + collider_offset, Vector3.down, distToGround + 0.1f, LayerMask.GetMask("Collidable"));
     }
 
 }

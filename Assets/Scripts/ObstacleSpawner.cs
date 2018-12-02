@@ -34,7 +34,6 @@ public class ObstacleSpawner : MonoBehaviour {
     {        
         if (time_running > Config.GetCollectableSpawnTime())
         {
-            Debug.Log("time_running: " +  time_running + " greater than spawn time: "  + Config.GetCollectableSpawnTime());
             spawn_collectable = true;
         }
 

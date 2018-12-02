@@ -15,7 +15,6 @@ public class DestroyIfOffscreen : MonoBehaviour {
 	void Update () {
 	    if (transform.position.x < X)
         {
-            Debug.Log(transform.position.x);
             Destroy(gameObject);
         }	
 	}
