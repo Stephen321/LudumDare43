@@ -332,13 +332,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 519420031}
   Config: {fileID: 66330227}
+  Player: {fileID: 2050504293}
   Ice_Spawner: {fileID: 1190527534}
   Spawn_Offset: 2
   Spikes: {fileID: 1640405803332948, guid: f9ea1648d33fdce409068d77e011426a, type: 2}
+  Spikes2: {fileID: 1439020590516482, guid: 137e7de6b2a45aa459fdc293df37c7b6, type: 2}
+  SpikesGap: {fileID: 1584667734744728, guid: 6fcb33228b3662341a74b7664883624b, type: 2}
+  SpikesDoubleJump: {fileID: 1024303804752262, guid: 431ce770bd902dc458aa703b5a51fbcc,
+    type: 2}
+  Spikes_Chance: 0.4
+  Spikes2_Chance: 0.3
   Collectable: {fileID: 1830459381087294, guid: b321fc5ea3b91704bb29f42d6c0c81fb,
     type: 2}
-  Min_Spawn_Time: 5
-  Collectable_Spawn_Y: 4
+  Min_Spawn_Time: 2
+  Max_Spawn_Time: 4
+  Collectable_Spawn_Y: 3
   Min_Collectable_Spawn_Time: 1.5
 --- !u!4 &953305598
 Transform:
@@ -376,7 +384,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1032606420}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1000}
+  m_LocalPosition: {x: 0, y: 0, z: 20}
   m_LocalScale: {x: 4, y: 3.15, z: 1}
   m_Children: []
   m_Father: {fileID: 519420032}
@@ -460,7 +468,7 @@ MonoBehaviour:
   Spawn_Offset: 2
   Ice: {fileID: 1446366209008956, guid: 41685833e497cb74f83b2cdb89a72d65, type: 2}
   Ice_Gap: {fileID: 1814020716039936, guid: eb0436b7111f81e4d9d95bdf6d45b13e, type: 2}
-  Ice_Gap_Chance: 0.5
+  Ice_Gap_Chance: 0.2
 --- !u!4 &1190527535
 Transform:
   m_ObjectHideFlags: 0
@@ -575,7 +583,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1743041763}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.1581686, y: 3.6427534, z: -9.375249}
+  m_LocalPosition: {x: -1.1581686, y: 3.6427534, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -631,7 +639,7 @@ MonoBehaviour:
   force: 700
   fallGravityMultiplier: 1.75
   jumpGravityMultiplier: 1.25
-  Coolness_For_Double_Jump: 2
+  Coolness_For_Double_Jump: -2
   Time_Before_Double_Jump: 0.1
 --- !u!212 &2050504294
 SpriteRenderer:

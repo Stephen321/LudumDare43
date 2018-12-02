@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
@@ -25,10 +26,20 @@ public class Player : MonoBehaviour {
     private bool already_double_jumped;
     private Vector3 collider_offset;
 
+    private float start_x;
+    private float game_timer; 
     private bool start_jump;
+
+    public bool CanDoubleJump()
+    {
+        return Coolness > Coolness_For_Double_Jump;
+    }
+
     // Use this for initialization
     void Start ()
     {
+        start_x = transform.position.x;
+        game_timer = .0f;
         Coolness = 0;
         already_double_jumped = false;
         jumping_time = .0f;
@@ -38,6 +49,12 @@ public class Player : MonoBehaviour {
         CircleCollider2D circle_collider = GetComponent<CircleCollider2D>();
         distToGround = circle_collider.bounds.extents.y;
         collider_offset = circle_collider.offset;
+
+
+        Stats.ConnectionsSacrificed = Coolness;
+        Stats.Time = game_timer;
+        Stats.DistanceTravelled = transform.position.x - start_x;
+        Stats.Died = false;
     }
 	
 	// Update is called once per frame
@@ -60,6 +77,7 @@ public class Player : MonoBehaviour {
         {
             already_double_jumped = false;
         }
+        game_timer += Time.deltaTime;
     }
 
     void FixedUpdate()
@@ -103,6 +121,18 @@ public class Player : MonoBehaviour {
     bool IsGrounded()
     {
         return Physics2D.Raycast(transform.position + collider_offset, Vector3.down, distToGround + 0.1f, LayerMask.GetMask("Collidable"));
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Obstacle"))
+        {
+            Stats.ConnectionsSacrificed = Coolness;
+            Stats.Time = game_timer;
+            Stats.DistanceTravelled = transform.position.x - start_x;
+            Stats.Died = true;
+            SceneManager.LoadScene(2);
+        }
     }
 
 }

@@ -8,15 +8,27 @@ public class ObstacleSpawner : MonoBehaviour {
 
     public new Camera camera;
     public Config Config;
+    public Player Player;
     public IceSpawner Ice_Spawner;
     public float Spawn_Offset = 2;
-    public GameObject  Spikes;
+
+    public GameObject Spikes;
+    public GameObject Spikes2;
+    public GameObject SpikesGap;
+    public GameObject SpikesDoubleJump;
+
+    public float Spikes_Chance;
+    public float Spikes2_Chance;
+    //public float SpikesGap_Chance;
+
     public GameObject Collectable;
 
-    public float Min_Spawn_Time = 3.0f;
-    public float Collectable_Spawn_Y = 4.0f;
-    public float Min_Collectable_Spawn_Time = 1.5f; //need a minimum so they spawn far enough apart
-    private float next_spawn_timer;
+    public float Min_Spawn_Time;
+    public float Max_Spawn_Time;
+    public float Collectable_Spawn_Y;
+    public float Min_Collectable_Spawn_Time; //need a minimum so they spawn far enough apart
+    private float next_spawn_time;
+    private float spawn_timer;
     private bool spawn_collectable;
     
     private float time_running;
@@ -25,7 +37,8 @@ public class ObstacleSpawner : MonoBehaviour {
     void Start ()
     {
         time_running = .0f;
-        next_spawn_timer = Min_Spawn_Time;
+        next_spawn_time = Min_Spawn_Time;
+        spawn_timer = next_spawn_time;
         spawn_collectable = false; 
     }
 
@@ -41,7 +54,7 @@ public class ObstacleSpawner : MonoBehaviour {
         {
             float cam_left = camera.ViewportToWorldPoint(new Vector3(0, 0.5f, camera.nearClipPlane)).x;
             GameObject first = transform.GetChild(0).gameObject;
-            float first_right = first.transform.position.x + (first.GetComponent<SpriteRenderer>().bounds.size.x * 0.5f);
+            float first_right = first.transform.position.x + (first.GetComponent<BoxCollider2D>().bounds.size.x * 0.5f);
 
             if (first_right < cam_left)
             {
@@ -52,33 +65,60 @@ public class ObstacleSpawner : MonoBehaviour {
 
         if (Ice_Spawner.GetIceGaps() == 0)
         {
-            if (!spawn_collectable && next_spawn_timer > Min_Spawn_Time)
+            if (!spawn_collectable && spawn_timer > next_spawn_time)
             {
                 float cam_right = camera.ViewportToWorldPoint(new Vector3(1, 0.5f, camera.nearClipPlane)).x;
-                next_spawn_timer = .0f;
+                spawn_timer = .0f;
+
+                next_spawn_time = Random.Range(Min_Spawn_Time, Max_Spawn_Time);
                 Spawn(cam_right + Spawn_Offset);
             }
-            if (spawn_collectable && next_spawn_timer > Min_Collectable_Spawn_Time)
+            if (spawn_collectable && spawn_timer > Min_Collectable_Spawn_Time)
             {
                 float cam_right = camera.ViewportToWorldPoint(new Vector3(1, 0.5f, camera.nearClipPlane)).x;
                 SpawnCollectable(cam_right + Spawn_Offset);
                 spawn_collectable = false;
                 Debug.Log("spawn collectable!");
-                next_spawn_timer = .0f;
+                spawn_timer = .0f;
                 time_running = .0f;
             }
         }
 
         time_running += Time.deltaTime;
-        next_spawn_timer += Time.deltaTime;
+        spawn_timer += Time.deltaTime;
     }
 
     void Spawn(float x)
     {
 
-        GameObject new_obstacle = GameObject.Instantiate(Spikes);
+        GameObject new_obstacle;
+
+        bool flippable = true;
+        float r = Random.value;
+        if (r < Spikes_Chance)
+        {
+            new_obstacle = GameObject.Instantiate(Spikes);
+        }
+        else if (r < Spikes2_Chance)
+        {
+            new_obstacle = GameObject.Instantiate(Spikes2);
+        }
+        else// if (r < SpikesGap_Chance)
+        {
+            if (Player.CanDoubleJump() && Random.value < 0.66f)
+            {
+                new_obstacle = GameObject.Instantiate(SpikesDoubleJump);
+            }
+            else
+            { 
+                new_obstacle = GameObject.Instantiate(SpikesGap);
+            }
+
+            flippable = false;
+        }
+
         SpriteRenderer new_sprite = new_obstacle.GetComponent<SpriteRenderer>();
-        if (Random.value < 0.5f)
+        if (flippable && Random.value < 0.5f)
         {
             new_sprite.flipX = true;
         }
