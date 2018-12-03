@@ -5,12 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
-    public Config config;
     public float force = 10;
     public float fallGravityMultiplier;
     public float jumpGravityMultiplier;
     public int Coolness_For_Double_Jump;
-    public int Coolness { get; set; }
+    public int Coolness;
+    public int Speed;
+    public float Jump;
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -38,6 +39,8 @@ public class Player : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        Jump = 1.0f;
+        Speed = 4;
         start_x = transform.position.x;
         game_timer = .0f;
         Coolness = 0;
@@ -50,11 +53,15 @@ public class Player : MonoBehaviour {
         distToGround = circle_collider.bounds.extents.y;
         collider_offset = circle_collider.offset;
 
+        UpdateStats();
+        Stats.Died = false;
+    }
 
+    public void UpdateStats()
+    {
         Stats.ConnectionsSacrificed = Coolness;
         Stats.Time = game_timer;
         Stats.DistanceTravelled = transform.position.x - start_x;
-        Stats.Died = false;
     }
 	
 	// Update is called once per frame
@@ -62,7 +69,7 @@ public class Player : MonoBehaviour {
     {
 
 
-        transform.Translate(Vector2.right * Time.deltaTime * config.GetSpeed());
+        transform.Translate(Vector2.right * Time.deltaTime * Speed);
 
         //transform.position = new Vector3(transform.position.x, 3, transform.position.z);
 
@@ -86,7 +93,7 @@ public class Player : MonoBehaviour {
         if (start_jump)
         {
             start_jump = false;
-            rb.AddForce(Vector2.up * force);
+            rb.AddForce(Vector2.up * force * Jump);
             jumping_time = .0f;
         }
 
@@ -111,7 +118,7 @@ public class Player : MonoBehaviour {
                     new_vel.y = .0f;
                     rb.velocity = new_vel;
                     anim.SetTrigger(jump_hash);
-                    rb.AddForce(Vector2.up * force * 0.7f);
+                    rb.AddForce((Vector2.up * force * 0.7f) + (Vector2.up * force * 0.25f * (Jump * 0.75f)));
                     already_double_jumped = true;
                 }
             }
@@ -127,12 +134,9 @@ public class Player : MonoBehaviour {
     {
         if (collision.CompareTag("Obstacle"))
         {
-            Stats.ConnectionsSacrificed = Coolness;
-            Stats.Time = game_timer;
-            Stats.DistanceTravelled = transform.position.x - start_x;
+            UpdateStats();
             Stats.Died = true;
             SceneManager.LoadScene(2);
         }
     }
-
 }

@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4682634265141600}
   - component: {fileID: 212975836617057684}
   - component: {fileID: 61978662381768752}
+  - component: {fileID: 114104126717096422}
   m_Layer: 10
   m_Name: CollectablePrefab
   m_TagString: Collectable
@@ -66,6 +67,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.1}
   m_EdgeRadius: 0
+--- !u!114 &114104126717096422
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1830459381087294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5159f275eb19d2e408743e090239d7a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sacrifice: {fileID: 0}
 --- !u!212 &212975836617057684
 SpriteRenderer:
   m_ObjectHideFlags: 1

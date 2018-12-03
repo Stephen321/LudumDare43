@@ -78,7 +78,6 @@ public class ObstacleSpawner : MonoBehaviour {
                 float cam_right = camera.ViewportToWorldPoint(new Vector3(1, 0.5f, camera.nearClipPlane)).x;
                 SpawnCollectable(cam_right + Spawn_Offset);
                 spawn_collectable = false;
-                Debug.Log("spawn collectable!");
                 spawn_timer = .0f;
                 time_running = .0f;
             }

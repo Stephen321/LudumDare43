@@ -349,6 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StatsText: {fileID: 228328613}
+  ReasonText: {fileID: 795730220}
 --- !u!1 &587433236
 GameObject:
   m_ObjectHideFlags: 0
@@ -497,7 +498,7 @@ GameObject:
   - component: {fileID: 795730221}
   - component: {fileID: 795730220}
   m_Layer: 5
-  m_Name: DeathText
+  m_Name: ReasonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
