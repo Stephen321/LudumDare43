@@ -12,6 +12,7 @@ public class Player : MonoBehaviour {
     public int Coolness;
     public int Speed;
     public float Jump;
+    public Config Config;
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -33,7 +34,7 @@ public class Player : MonoBehaviour {
 
     public bool CanDoubleJump()
     {
-        return Coolness > Coolness_For_Double_Jump;
+        return Coolness >= Coolness_For_Double_Jump;
     }
 
     // Use this for initialization
@@ -59,6 +60,7 @@ public class Player : MonoBehaviour {
 
     public void UpdateStats()
     {
+        Stats.PlayerSpeed = Speed;
         Stats.ConnectionsSacrificed = Coolness;
         Stats.Time = game_timer;
         Stats.DistanceTravelled = transform.position.x - start_x;
@@ -71,19 +73,29 @@ public class Player : MonoBehaviour {
 
         transform.Translate(Vector2.right * Time.deltaTime * Speed);
 
-        //transform.position = new Vector3(transform.position.x, 3, transform.position.z);
 
-        jump = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetMouseButtonDown(0);
-        grounded = IsGrounded();
-        if (jump && grounded)
+        if (Config.Player_Must_Fly)
         {
-            start_jump = true; //if there was a point where this was true then start the jump
+            if (transform.position.x > Config.Player_Must_Fly_X)
+            {
+                Stats.PlayerSpeed = Speed;
+                SceneManager.LoadScene(3);
+            }
+        }
+        else
+        {
+            jump = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetMouseButtonDown(0);
+            grounded = IsGrounded();
+            if (jump && grounded)
+            {
+                start_jump = true; //if there was a point where this was true then start the jump
+            }
+            if (grounded)
+            {
+                already_double_jumped = false;
+            }
         }
 
-        if (grounded)
-        {
-            already_double_jumped = false;
-        }
         game_timer += Time.deltaTime;
     }
 
@@ -107,7 +119,7 @@ public class Player : MonoBehaviour {
         }
 
         //double jumping
-        if (Coolness > Coolness_For_Double_Jump && !grounded && !already_double_jumped)
+        if (Coolness >= Coolness_For_Double_Jump && !grounded && !already_double_jumped)
         {
             jumping_time += Time.deltaTime;
             if (jumping_time > Time_Before_Double_Jump)
@@ -118,6 +130,7 @@ public class Player : MonoBehaviour {
                     new_vel.y = .0f;
                     rb.velocity = new_vel;
                     anim.SetTrigger(jump_hash);
+                    Debug.Log("DoubleJump");
                     rb.AddForce((Vector2.up * force * 0.7f) + (Vector2.up * force * 0.25f * (Jump * 0.75f)));
                     already_double_jumped = true;
                 }

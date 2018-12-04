@@ -8,6 +8,9 @@ TagManager:
   - Obstacle
   - Collectable
   - Sacrifice
+  - ObstacleSpawner
+  - Boost
+  - FlyingTrig
   layers:
   - Default
   - TransparentFX

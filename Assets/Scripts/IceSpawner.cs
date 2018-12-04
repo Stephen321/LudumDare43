@@ -53,7 +53,7 @@ public class IceSpawner : MonoBehaviour {
     {
         //set up new ice platform position and parent
         GameObject new_ice;
-        if (Random.value <= Ice_Gap_Chance)
+        if (Config.Game_Won == false && Random.value <= Ice_Gap_Chance)
         {
             new_ice = GameObject.Instantiate(Ice_Gap);
         }

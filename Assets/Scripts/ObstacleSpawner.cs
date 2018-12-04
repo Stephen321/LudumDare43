@@ -7,6 +7,7 @@ using UnityEngine.Assertions;
 public class ObstacleSpawner : MonoBehaviour {
 
     public new Camera camera;
+    public Sacrifice Sacrifice;
     public Config Config;
     public Player Player;
     public IceSpawner Ice_Spawner;
@@ -26,6 +27,8 @@ public class ObstacleSpawner : MonoBehaviour {
     public float Min_Spawn_Time;
     public float Max_Spawn_Time;
     public float Collectable_Spawn_Y;
+    public float Collectable_Spawn_Y_Min;
+    
     public float Min_Collectable_Spawn_Time; //need a minimum so they spawn far enough apart
     private float next_spawn_time;
     private float spawn_timer;
@@ -33,19 +36,26 @@ public class ObstacleSpawner : MonoBehaviour {
     
     private float time_running;
 
+    public int collectables_alive;
+
+    private int obstacles_alive;
+
+
     // Use this for initialization
     void Start ()
     {
         time_running = .0f;
         next_spawn_time = Min_Spawn_Time;
         spawn_timer = next_spawn_time;
-        spawn_collectable = false; 
+        spawn_collectable = false;
+        collectables_alive = 0;
+        obstacles_alive = 0;
     }
 
     // Update is called once per frame
     void Update()
     {        
-        if (time_running > Config.GetCollectableSpawnTime())
+        if (Sacrifice.CanSpawnMoreCollectables(collectables_alive) && time_running > Config.GetCollectableSpawnTime())
         {
             spawn_collectable = true;
         }
@@ -58,33 +68,51 @@ public class ObstacleSpawner : MonoBehaviour {
 
             if (first_right < cam_left)
             {
+                if (first.CompareTag("Collectable"))
+                {
+                    collectables_alive--;
+                }
+                else
+                {
+                    obstacles_alive--;
+                }
                 Destroy(first);
             }
         }
 
-
-        if (Ice_Spawner.GetIceGaps() == 0)
+        if (Config.Game_Won == false)
         {
-            if (!spawn_collectable && spawn_timer > next_spawn_time)
+            if (Ice_Spawner.GetIceGaps() == 0)
             {
-                float cam_right = camera.ViewportToWorldPoint(new Vector3(1, 0.5f, camera.nearClipPlane)).x;
-                spawn_timer = .0f;
+                if (!spawn_collectable && spawn_timer > next_spawn_time)
+                {
+                    float cam_right = camera.ViewportToWorldPoint(new Vector3(1, 0.5f, camera.nearClipPlane)).x;
+                    spawn_timer = .0f;
 
-                next_spawn_time = Random.Range(Min_Spawn_Time, Max_Spawn_Time);
-                Spawn(cam_right + Spawn_Offset);
+                    next_spawn_time = Random.Range(Min_Spawn_Time, Max_Spawn_Time);
+                    Spawn(cam_right + Spawn_Offset);
+                    obstacles_alive++;
+                }
+                if (spawn_collectable && spawn_timer > Min_Collectable_Spawn_Time)
+                {
+                    float cam_right = camera.ViewportToWorldPoint(new Vector3(1, 0.5f, camera.nearClipPlane)).x;
+                    SpawnCollectable(cam_right + Spawn_Offset);
+                    spawn_collectable = false;
+                    spawn_timer = .0f;
+                    time_running = .0f;
+                }
             }
-            if (spawn_collectable && spawn_timer > Min_Collectable_Spawn_Time)
+
+            spawn_timer += Time.deltaTime;
+        }
+        else
+        {
+            if (obstacles_alive == 0)
             {
-                float cam_right = camera.ViewportToWorldPoint(new Vector3(1, 0.5f, camera.nearClipPlane)).x;
-                SpawnCollectable(cam_right + Spawn_Offset);
-                spawn_collectable = false;
-                spawn_timer = .0f;
-                time_running = .0f;
+                Config.NoObstacles = true;
             }
         }
-
         time_running += Time.deltaTime;
-        spawn_timer += Time.deltaTime;
     }
 
     void Spawn(float x)
@@ -131,8 +159,9 @@ public class ObstacleSpawner : MonoBehaviour {
 
     void SpawnCollectable(float x)
     {
-
         GameObject new_obstacle = GameObject.Instantiate(Collectable);
+        collectables_alive++;
+
         SpriteRenderer new_sprite = new_obstacle.GetComponent<SpriteRenderer>();
 
         //float new_width = new_sprite.bounds.size.x;
@@ -140,7 +169,7 @@ public class ObstacleSpawner : MonoBehaviour {
 
         Vector3 pos = new_obstacle.transform.position;
         pos.x = x;
-        pos.y = transform.position.y + Random.Range(new_height * 0.5f, Collectable_Spawn_Y);
+        pos.y = transform.position.y + Collectable_Spawn_Y_Min + Random.Range(new_height * 0.5f, Collectable_Spawn_Y);
 
         new_obstacle.transform.parent = transform;
         new_obstacle.transform.position = pos;

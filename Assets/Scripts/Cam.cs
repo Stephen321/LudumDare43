@@ -6,6 +6,7 @@ public class Cam : MonoBehaviour {
 
     public GameObject player;
     public Vector3 cam_offset;
+    public Config Config;
 
 
 	// Use this for initialization
@@ -15,6 +16,9 @@ public class Cam : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.position = new Vector3(player.transform.position.x + cam_offset.x, cam_offset.y, cam_offset.z);
+        if (!Config.Player_Must_Fly)
+        {
+            transform.position = new Vector3(player.transform.position.x + cam_offset.x, cam_offset.y, cam_offset.z);
+        }
     }
 }
