@@ -71,6 +71,7 @@ public class Player : MonoBehaviour {
     {
 
 
+
         transform.Translate(Vector2.right * Time.deltaTime * Speed);
 
 
@@ -93,6 +94,11 @@ public class Player : MonoBehaviour {
             if (grounded)
             {
                 already_double_jumped = false;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SceneManager.LoadScene(0);
             }
         }
 

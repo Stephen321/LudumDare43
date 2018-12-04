@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Config : MonoBehaviour {
 
-    public new Camera camera;
+    public Camera camera;
     public float collectable_spawn_time;
     public IceSpawner iceSpawner;
     public bool Game_Won;

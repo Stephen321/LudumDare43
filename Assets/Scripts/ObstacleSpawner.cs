@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 
 public class ObstacleSpawner : MonoBehaviour {
 
-    public new Camera camera;
+    public Camera camera;
     public Sacrifice Sacrifice;
     public Config Config;
     public Player Player;
