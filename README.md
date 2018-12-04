@@ -1,8 +1,10 @@
 *Made for Ludum Dare 43. Theme: "Sacrifices must be made"*
 
-Play/download here: https://stephen321.itch.io/serial-slider
+**Play/download here:** 
+https://stephen321.itch.io/serial-slider
 
-Ludum Dare page: https://ldjam.com/events/ludum-dare/43/serial-slider
+**Ludum Dare page:**
+https://ldjam.com/events/ludum-dare/43/serial-slider
 
 **Controls:**
 Up arrow, space key or left mouse click to jump (and later double jump!)
