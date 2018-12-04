@@ -890,11 +890,11 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'There is a myth that if a penguin is willing to sacrifice everything and
-    everyone then  ultimate power will be the award. But no penguin has ever attempted
-    it as penguins as a rule are devoted to their families and friends.
+    everyone then ultimate the power of flight will be the award. But no penguin has
+    ever attempted it as penguins as a rule are devoted to their families and friends.
 
 
-    That is, until *penguin name here* wants more out of life and he doesn''t care
+    That is, until Pavlov the Penguin wants more out of life and he doesn''t care
     about the cost. He has left home but his loved ones may still try to convince
     him otherwise....
 
@@ -1036,7 +1036,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 1de04df9f38cc1b45b11593750fcc98a, type: 3}
+    m_Font: {fileID: 12800000, guid: 8c2faab7172e05f4a99523510a0580a2, type: 3}
     m_FontSize: 103
     m_FontStyle: 0
     m_BestFit: 1
@@ -1392,8 +1392,8 @@ RectTransform:
   m_Father: {fileID: 544513685}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.02602109, y: 0}
+  m_AnchorMax: {x: 0.9765216, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1417,11 +1417,11 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 1de04df9f38cc1b45b11593750fcc98a, type: 3}
-    m_FontSize: 32
+    m_Font: {fileID: 12800000, guid: 176ec2f0c3ca93c47b93ab6b373ebb59, type: 3}
+    m_FontSize: 18
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 3
+    m_MinSize: 8
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -1429,7 +1429,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Click here to Start
+  m_Text: Click here
 --- !u!222 &1091747158
 CanvasRenderer:
   m_ObjectHideFlags: 0
