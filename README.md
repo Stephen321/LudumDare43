@@ -6,6 +6,9 @@ https://stephen321.itch.io/serial-slider
 **Ludum Dare page:**  
 https://ldjam.com/events/ludum-dare/43/serial-slider
 
+**Youtube Video:**
+https://youtu.be/bNNaL3tuSNc
+
 **Controls:**  
 Up arrow, space key or left mouse click to jump (and later double jump!)
 
