@@ -6,7 +6,7 @@ https://stephen321.itch.io/serial-slider
 **Ludum Dare page:**  
 https://ldjam.com/events/ludum-dare/43/serial-slider
 
-**Youtube Video:**
+**Youtube Video:**  
 https://youtu.be/bNNaL3tuSNc
 
 **Controls:**  
